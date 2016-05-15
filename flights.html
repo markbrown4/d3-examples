@@ -177,14 +177,15 @@ var colorPoint = function(d) {
 
 var render = function(data, time) {
 
+  var inFiveMinutes = moment(time).add(5, 'minutes').toDate();
+  var i = d3.interpolate(time, inFiveMinutes);
   d3.select('.time')
     .transition()
     .duration(500)
     .ease('linear')
     .tween("text", function() {
       return function(t) {
-        var time = moment(now).add(5 * t, 'minutes').format("hh:mm a")
-        d3.select(this).text(time);
+        this.textContent = moment(i(t)).format("hh:mm a");
       };
     });
 
